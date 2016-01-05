@@ -1,0 +1,13 @@
+Paths to different hardware devices:
+
+ S0 - ServoController
+    Channel 1 - Left Claw
+    Channel 2 - Right Claw
+***********************
+ S1 - Arm MotorController
+    Motor 1 - Arm
+***********************
+ Chassis MotorController
+    Motor 1 - Left Motor
+    Motor 2 - Right Motor
+

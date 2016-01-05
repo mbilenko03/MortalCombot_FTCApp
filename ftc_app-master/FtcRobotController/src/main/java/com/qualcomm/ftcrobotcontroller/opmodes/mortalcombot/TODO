@@ -1,0 +1,6 @@
+todo: Do the following.
+1. Make sure teleop and autonomous work properly.
+2. Double check all measurements for driving and turning.
+3. Tune up red and blue autonomous.
+4. Test parallel tasking.
+5. Make autonomous more efficient.

@@ -10,8 +10,8 @@ public class ResetTheEncoders extends PBTask {
     }
 
     protected void resetDriverEncoders() {
-        pushbot.motorLeft.setChannelMode(pushbot.RESET_ENCODERS);
-        pushbot.motorRight.setChannelMode(pushbot.RESET_ENCODERS);
+        pushbot.motorLeft.setMode(pushbot.RESET_ENCODERS);
+        pushbot.motorRight.setMode(pushbot.RESET_ENCODERS);
     }
 
     public boolean encodersZero() {

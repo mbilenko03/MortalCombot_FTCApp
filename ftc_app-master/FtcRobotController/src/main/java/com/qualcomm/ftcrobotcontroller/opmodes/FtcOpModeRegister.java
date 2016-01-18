@@ -19,5 +19,6 @@ public class FtcOpModeRegister implements OpModeRegister {
       //CustomBot OpModes
       manager.register("CustomBot TeleOp", CBTeleOp.class);
 
+      //manager.register("EncoderTest", EncoderTest.class);
   }
 }

@@ -21,8 +21,8 @@ public class PBTurnTask extends PBCompoundTask {
         double encodersLeft = convertInchesToEncoders(encodersLeftInches);
         double encodersRight = convertInchesToEncoders(encodersRightInches);
 
-        addTask(new RunUsingTheEncoders(pb, "Run with encoders"));
         addTask(new ResetTheEncoders(pb, "Reset encoders"));
+        addTask(new RunUsingTheEncoders(pb, "Run with encoders"));
         addTask(new ReachedEncoderCount(pb, "DriveDistance", encodersLeft, encodersRight, driveSpeedLeft, driveSpeedRight));
     }
 }

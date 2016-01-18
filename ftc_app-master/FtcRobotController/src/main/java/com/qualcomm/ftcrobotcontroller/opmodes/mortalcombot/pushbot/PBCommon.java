@@ -10,8 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 public class PBCommon {
     // Global variables
     public DcMotor motorLeft, motorRight, motorArm;
-    public Servo servoClawLeft, servoClawRight;
-    //public TouchSensor sensorTouch;
+    public Servo servoClawLeft, servoClawRight, servoSweeper;
     public DcMotorController.DeviceMode READ_MODE, WRITE_MODE;
     public DcMotorController.RunMode RUN_USING_ENCODERS, RESET_ENCODERS, RUN_TO_POSITION;
     public OpMode opModeSender;
@@ -28,13 +27,12 @@ public class PBCommon {
         // Define servo variables
         servoClawLeft = opModeSender.hardwareMap.servo.get("servo_1");
         servoClawRight = opModeSender.hardwareMap.servo.get("servo_2");
-
-        // Define sensors
-        // sensorTouch = opModeSender.hardwareMap.touchSensor.get ("sensor_touch");
+        servoSweeper = opModeSender.hardwareMap.servo.get("servo_3");
 
         // Reverse devices on left
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
         servoClawLeft.setDirection(Servo.Direction.REVERSE);
+        servoSweeper.setDirection(Servo.Direction.REVERSE);
 
         // Define some helper variables
         READ_MODE = DcMotorController.DeviceMode.READ_ONLY;
@@ -78,8 +76,8 @@ public class PBCommon {
         servoClawRight.setPosition(clawPosition);
     }
 
-    /*
-    public boolean isTouchSensorPressed() {
-    return sensorTouch.isPressed ();
-    } */
+    // Method to set the PushBot sweeper position
+    public void setSweeperPosition(double pos) {
+        servoSweeper.setPosition(pos);
+    }
 }

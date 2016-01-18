@@ -6,7 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class CBCommon {
-    public DcMotor motorLeft, motorRight, motorArm;
+    public DcMotor motorLeftFront, motorRightFront, motorLeftBack, motorRightBack;
+    public DcMotor motorTread;
+    public DcMotor motorDeath;
     public DcMotorController.DeviceMode READ_MODE, WRITE_MODE;
     private OpMode opModeSender;
 
@@ -15,11 +17,15 @@ public class CBCommon {
         opModeSender = sender;
 
         // Define motor variables
-        motorLeft = opModeSender.hardwareMap.dcMotor.get("motor_1");
-        motorRight = opModeSender.hardwareMap.dcMotor.get("motor_2");
+        motorLeftFront = opModeSender.hardwareMap.dcMotor.get("motor_lf");
+        motorRightFront = opModeSender.hardwareMap.dcMotor.get("motor_rf");
+        motorTread = opModeSender.hardwareMap.dcMotor.get("motor_t");
+        motorRightBack = opModeSender.hardwareMap.dcMotor.get("motor_rb");
+        motorLeftBack = opModeSender.hardwareMap.dcMotor.get("motor_lb");
 
         // Reverse devices on left
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorLeftFront.setDirection(DcMotor.Direction.REVERSE);
+        motorLeftBack.setDirection(DcMotor.Direction.REVERSE);
 
         // Define some helper variables
         READ_MODE = DcMotorController.DeviceMode.READ_ONLY;
@@ -37,17 +43,17 @@ public class CBCommon {
             rightPower = rightPower * 0.15f;
         }
 
-        // Set power to both motors
-        motorLeft.setPower(leftPower);
-        motorRight.setPower(rightPower);
+        // Set power to 4 motors
+        motorLeftFront.setPower(leftPower);
+        motorRightFront.setPower(rightPower);
+        motorLeftBack.setPower(leftPower);
+        motorRightBack.setPower(rightPower);
     }
 
-    public void setArmPower(float armPower) {
-        if (opModeSender.gamepad2.right_bumper) {
-            armPower = armPower * 0.15f;
-        }
-
-        // Set power to motor
-        motorArm.setPower(armPower);
+    public void sendTreadMessage(boolean status) {
+        if (status)
+            motorTread.setPower(1.0f);
+        else
+            motorTread.setPower(0.0f);
     }
 }

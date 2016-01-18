@@ -7,6 +7,7 @@ public class CBTeleOp extends OpMode {
     private CBCommon custombot;
     private float motorLeftPower, motorRightPower;
     private float motorLeftPowerLast, motorRightPowerLast;
+    private boolean threadActivated = false;
 
     public CBTeleOp() {
 
@@ -31,6 +32,11 @@ public class CBTeleOp extends OpMode {
             custombot.setChassisPower(motorLeftPower, motorRightPower);
             motorLeftPowerLast = motorLeftPower;
             motorRightPowerLast = motorRightPower;
+        }
+
+        if (gamepad1.x) {
+            threadActivated = !threadActivated;
+            custombot.sendTreadMessage(threadActivated);
         }
     }
 

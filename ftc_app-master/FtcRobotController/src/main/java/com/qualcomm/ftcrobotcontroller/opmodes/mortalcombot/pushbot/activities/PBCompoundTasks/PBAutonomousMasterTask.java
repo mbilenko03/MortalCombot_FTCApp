@@ -15,7 +15,8 @@ public class PBAutonomousMasterTask extends PBCompoundTask {
 
     public enum DriveMode {
         red,
-        blue
+        blue,
+        speed
     }
 
     public PBAutonomousMasterTask(PBCommon pb, String taskComment, Telemetry t, DriveMode mode) {
@@ -32,14 +33,6 @@ public class PBAutonomousMasterTask extends PBCompoundTask {
         addTask(new SetArmPower(0.5f, 100, pb, "Arm Test"));
         addTask(new SetClawPosition(0.5f, pb, "Claw Test")); */
 
-
-/* Parallel Task
-        PBParallelTask driveAndLiftArm = new PBParallelTask(pb, "Drive and lift arm");
-        driveAndLiftArm.addTask(new PBDriveTask(12, 0.5f, pb, "DriveTask 1"));
-        driveAndLiftArm.addTask(new SetArmPower(0.5f, 20, pb, "Lift arm"));
-        addTask(driveAndLiftArm); */
-
-
         if (mode == DriveMode.blue) {
             addTask(new SetArmPower(0.20f, 285, pb, "ArmUp"));
             addTask(new PBDriveTask(20.5, 0.25f, pb, "RobotOut"));
@@ -51,7 +44,9 @@ public class PBAutonomousMasterTask extends PBCompoundTask {
             addTask(new SetArmPower(-0.08f, 105, pb, "ArmDown"));
             addTask(new HaltForTime(pb, 1, "Wait for Time"));
             addTask(new SetClawPosition(0.2d, pb, "Release Climbers"));
-        } else {
+        }
+
+        else if (mode == DriveMode.red) {
             addTask(new SetArmPower(0.20f, 285, pb, "ArmUp"));
             addTask(new PBDriveTask(18, 0.25f, pb, "RobotOut"));
             addTask(new PBTurnTask(56.25f, -0.1f, 0.1f, pb, "Turn Diagonally"));
@@ -62,6 +57,13 @@ public class PBAutonomousMasterTask extends PBCompoundTask {
             addTask(new SetArmPower(-0.08f, 105, pb, "ArmDown"));
             addTask(new HaltForTime(pb, 1, "Wait for Time"));
             addTask(new SetClawPosition(0.2d, pb, "Release Climbers"));
+        }
+        else if (mode == DriveMode.speed) {
+            PBParallelTask driveAndLiftArm = new PBParallelTask(pb, "Drive and lift arm");
+            driveAndLiftArm.addTask(new PBDriveTask(98, 1.0f, pb, "DriveTask 1"));
+            driveAndLiftArm.addTask(new SetArmPower(0.25f, 150, pb, "Lift arm"));
+            addTask(driveAndLiftArm);
+            addTask(new SetClawPosition(0, pb, "Release Climbers"));
         }
 
 

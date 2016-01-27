@@ -1,5 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.ftcrobotcontroller.opmodes.mortalcombot.pushbot.PBSpeedOp;
 import com.qualcomm.ftcrobotcontroller.opmodes.mortalcombot.pushbot.PBTeleOp;
 import com.qualcomm.ftcrobotcontroller.opmodes.mortalcombot.pushbot.PBAutonomousBlueOp;
 import com.qualcomm.ftcrobotcontroller.opmodes.mortalcombot.pushbot.PBAutonomousRedOp;
@@ -15,6 +16,7 @@ public class FtcOpModeRegister implements OpModeRegister {
       manager.register("PushBot TeleOp", PBTeleOp.class);
       manager.register("[Blue]PushBot AutonomousOp", PBAutonomousBlueOp.class);
       manager.register("[Red]PushBot AutonomousOp", PBAutonomousRedOp.class);
+      manager.register("Speed AutonomousOp", PBSpeedOp.class);
 
       //CustomBot OpModes
       manager.register("CustomBot TeleOp", CBTeleOp.class);

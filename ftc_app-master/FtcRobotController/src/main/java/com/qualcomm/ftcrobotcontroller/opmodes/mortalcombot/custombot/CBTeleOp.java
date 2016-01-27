@@ -20,23 +20,26 @@ public class CBTeleOp extends OpMode {
 
     @Override
     public void loop() {
+        grabControllerInput();
         updateMotorPower();
         updateTelemetry();
     }
 
-    private void updateMotorPower() {
+    private void grabControllerInput() {
         motorLeftPower = -gamepad1.left_stick_y;
         motorRightPower = -gamepad1.right_stick_y;
-
-        if (motorLeftPower != motorLeftPowerLast || motorRightPower != motorRightPowerLast) {
-            custombot.setChassisPower(motorLeftPower, motorRightPower);
-            motorLeftPowerLast = motorLeftPower;
-            motorRightPowerLast = motorRightPower;
-        }
 
         if (gamepad1.x) {
             threadActivated = !threadActivated;
             custombot.sendTreadMessage(threadActivated);
+        }
+    }
+
+    private void updateMotorPower() {
+        if (motorLeftPower != motorLeftPowerLast || motorRightPower != motorRightPowerLast) {
+            custombot.setChassisPower(motorLeftPower, motorRightPower);
+            motorLeftPowerLast = motorLeftPower;
+            motorRightPowerLast = motorRightPower;
         }
     }
 

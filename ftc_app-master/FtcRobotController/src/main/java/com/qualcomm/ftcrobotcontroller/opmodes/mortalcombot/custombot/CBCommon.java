@@ -19,13 +19,15 @@ public class CBCommon {
         // Define motor variables
         motorLeftFront = opModeSender.hardwareMap.dcMotor.get("motor_lf");
         motorRightFront = opModeSender.hardwareMap.dcMotor.get("motor_rf");
-        motorTread = opModeSender.hardwareMap.dcMotor.get("motor_t");
         motorRightBack = opModeSender.hardwareMap.dcMotor.get("motor_rb");
         motorLeftBack = opModeSender.hardwareMap.dcMotor.get("motor_lb");
+        motorTread = opModeSender.hardwareMap.dcMotor.get("motor_t");
+        motorDeath = opModeSender.hardwareMap.dcMotor.get("motor_d");
 
         // Reverse devices on left
         motorLeftFront.setDirection(DcMotor.Direction.REVERSE);
-        motorLeftBack.setDirection(DcMotor.Direction.REVERSE);
+        motorRightBack.setDirection(DcMotor.Direction.REVERSE);
+        motorDeath.setDirection(DcMotor.Direction.REVERSE);
 
         // Define some helper variables
         READ_MODE = DcMotorController.DeviceMode.READ_ONLY;
@@ -51,9 +53,13 @@ public class CBCommon {
     }
 
     public void sendTreadMessage(boolean status) {
-        if (status)
+        if (status) {
             motorTread.setPower(1.0f);
-        else
+            motorDeath.setPower(0.75f);
+        }
+        else {
             motorTread.setPower(0.0f);
+            motorDeath.setPower(0.0f);
+        }
     }
 }

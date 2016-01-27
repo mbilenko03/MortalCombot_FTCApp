@@ -22,6 +22,9 @@ public class PBAutonomousMasterTask extends PBCompoundTask {
         super(pb, taskComment);
         telemetry = t;
 
+        pushbot.setClawPosition(1);
+        //pushbot.setTiltPosition(1);
+
  /*Testing Task
         addTask(new PBDriveTask(24, 0.25f, pb, "Drive Test"));
         addTask(new PBTurnTask (56.25f, 0.5f, -0.5f, pb, "Turn Test"));
@@ -41,26 +44,24 @@ public class PBAutonomousMasterTask extends PBCompoundTask {
             addTask(new SetArmPower(0.20f, 285, pb, "ArmUp"));
             addTask(new PBDriveTask(20.5, 0.25f, pb, "RobotOut"));
             addTask(new PBTurnTask(56.25f, 0.1f, -0.1f, pb, "Turn Diagonally"));
-            addTask(new PBDriveTask(77.33, 0.25f, pb, "Turn Diagonally"));
-            addTask(new PBDriveTask(16.5, 0.25f, pb, "Finish Long Distance"));
+            addTask(new PBDriveTask(93.33, 0.25f, pb, "Drive Long Distance"));
+            //addTask(new ClearDebris(pb, "Clear Debris"));
             addTask(new PBTurnTask(45, 0.1f, -0.1f, pb, "Turn to Rescue Beacon"));
-            addTask(new ClearDebris(pb, "Clear Debris"));
             addTask(new PBDriveTask(11, 0.25f, pb, "Drive to Rescue Beacon"));
             addTask(new SetArmPower(-0.08f, 105, pb, "ArmDown"));
-            addTask(new HaltForTime(pb, 2, "Wait for Time"));
-            addTask(new SetClawPosition(0.0d, pb, "Release Climbers"));
+            addTask(new HaltForTime(pb, 1, "Wait for Time"));
+            addTask(new SetClawPosition(0.2d, pb, "Release Climbers"));
         } else {
             addTask(new SetArmPower(0.20f, 285, pb, "ArmUp"));
             addTask(new PBDriveTask(18, 0.25f, pb, "RobotOut"));
             addTask(new PBTurnTask(56.25f, -0.1f, 0.1f, pb, "Turn Diagonally"));
-            addTask(new PBDriveTask(76.33, 0.25f, pb, "Turn Diagonally"));
-            addTask(new PBDriveTask(16.5, 0.25f, pb, "Finish Long Distance"));
-            addTask(new PBTurnTask(56.25f, -0.1f, 0.1f, pb, "Turn to Rescue Beacon"));
-            addTask(new ClearDebris(pb, "Clear Debris"));
+            addTask(new PBDriveTask(93.33, 0.25f, pb, "Drive Long Distance"));
+            //addTask(new ClearDebris(pb, "Clear Debris"));
+            addTask(new PBTurnTask(45, -0.1f, 0.1f, pb, "Turn to Rescue Beacon"));
             addTask(new PBDriveTask(11, 0.25f, pb, "Drive to Rescue Beacon"));
             addTask(new SetArmPower(-0.08f, 105, pb, "ArmDown"));
-            addTask(new HaltForTime(pb, 2, "Wait for Time"));
-            addTask(new SetClawPosition(0.0d, pb, "Release Climbers"));
+            addTask(new HaltForTime(pb, 1, "Wait for Time"));
+            addTask(new SetClawPosition(0.2d, pb, "Release Climbers"));
         }
 
 

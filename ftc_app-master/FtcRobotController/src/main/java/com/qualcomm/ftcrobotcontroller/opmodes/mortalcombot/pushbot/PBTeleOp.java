@@ -3,15 +3,17 @@ package com.qualcomm.ftcrobotcontroller.opmodes.mortalcombot.pushbot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.Range;
 
+import java.util.Random;
+
 public class PBTeleOp extends OpMode {
     // Global variables
     private PBCommon pushbot;
     private float motorLeftPower, motorRightPower, motorArmPower;
     private float motorLeftPowerLast, motorRightPowerLast, motorArmPowerLast;
+    //private float motorTapePowerIn, motorTapePowerOut;
     private double clawPosition, clawPositionLast = 0d;
-    private double sweeperPosition = 0.0d;
-    private boolean sweeperActivated = false;
-    private TurnType turnType = TurnType.DECREASING;
+    //private double tiltPosition, lastTiltPosition = 1.0d;
+    private String driverMessage;
 
     public PBTeleOp() {}
 
@@ -24,6 +26,7 @@ public class PBTeleOp extends OpMode {
     public void init() {
         // Init PushBotCommon
         pushbot = new PBCommon(this);
+        driverMessage = getRandomDriverMessage();
     }
 
     @Override
@@ -31,7 +34,7 @@ public class PBTeleOp extends OpMode {
         grabControllerInput();
         updateMotors();
         updateClaw();
-        updateSweeper();
+        //updateTapeMeasureTilt();
         updateTelemetry();
     }
 
@@ -40,6 +43,8 @@ public class PBTeleOp extends OpMode {
         motorLeftPower = -gamepad1.left_stick_y;
         motorRightPower = -gamepad1.right_stick_y;
         motorArmPower = -gamepad2.right_stick_y;
+        //motorTapePowerOut = gamepad1.right_trigger;
+        //motorTapePowerIn = -gamepad1.left_trigger;
 
         // Check for loosen claw
         if (gamepad2.dpad_down)
@@ -49,9 +54,13 @@ public class PBTeleOp extends OpMode {
         if (gamepad2.dpad_up)
             clawPosition -= 0.004;
 
-        // Check sweeper activation
-        if (gamepad1.y)
-            sweeperActivated = !sweeperActivated;
+        /*
+        if (gamepad2.right_trigger > 0)
+            tiltPosition += 0.0009;
+
+        if (gamepad2.left_trigger > 0)
+            tiltPosition -= 0.0009;
+            */
     }
 
     private void updateMotors() {
@@ -65,10 +74,19 @@ public class PBTeleOp extends OpMode {
             pushbot.setArmPower(motorArmPower);
             motorArmPowerLast = motorArmPower;
         }
+/*
+        if (motorTapePowerOut > 0) {
+            pushbot.dispenseTape(motorTapePowerOut);
+        }
+
+        if (motorTapePowerIn < 0) {
+            pushbot.dispenseTape(motorTapePowerIn);
+        }
+        */
     }
 
     private void updateClaw() {
-        clawPosition = Range.clip(clawPosition, 0, 1);
+        clawPosition = Range.clip(clawPosition, 0, 0.7);
 
         if (clawPosition != clawPositionLast) {
             pushbot.setClawPosition(clawPosition);
@@ -76,41 +94,36 @@ public class PBTeleOp extends OpMode {
         }
     }
 
-    private void updateSweeper() {
-        if (sweeperActivated) {
-            if (sweeperPosition >= 1 && turnType == TurnType.INCREASING) {
-                turnType = TurnType.DECREASING;
-            }
+    /*
+    private void updateTapeMeasureTilt() {
+        tiltPosition = Range.clip(tiltPosition, 0.3798, 0.7056);
 
-            if (sweeperPosition <= 0 && turnType == TurnType.DECREASING) {
-                turnType = TurnType.INCREASING;
-            }
-
-            if (turnType == TurnType.INCREASING) {
-                sweeperPosition += 0.004;
-            } else {
-                sweeperPosition -= 0.004;
-            }
+        if (tiltPosition != lastTiltPosition) {
+            pushbot.setTiltPosition(tiltPosition);
+            lastTiltPosition = tiltPosition;
         }
-
-        sweeperPosition = Range.clip(sweeperPosition, 0, 1);
-        pushbot.setSweeperPosition(sweeperPosition);
     }
+    */
 
     private void updateTelemetry() {
         // Send telemetry data to the driver station.
-        telemetry.addData("01", "Left power: " + motorLeftPower);
-        telemetry.addData("02", "Right power: " + motorRightPower);
-        telemetry.addData("03", "Arm power: " + motorArmPower);
-        telemetry.addData("04", "Claw position: " + clawPosition);
-        telemetry.addData("05", "Sweeper activated/position: " + sweeperActivated + ", " + sweeperPosition);
-        telemetry.addData("06", "Chassis RB: " + gamepad1.right_bumper);
-        telemetry.addData("07", "Arm RB: " + gamepad2.right_bumper);
-        telemetry.addData("08", "Keep up the good work drivers.");
+        telemetry.addData("Left power", motorLeftPower);
+        telemetry.addData("Right power", motorRightPower);
+        telemetry.addData("Arm power", motorArmPower);
+        telemetry.addData("Claw position", clawPosition);
+        //telemetry.addData("TiltPosition", tiltPosition);
+        //telemetry.addData("TapePower", "In: " + motorTapePowerIn + ", Out: " + motorTapePowerOut);
+        telemetry.addData("Message", driverMessage);
+    }
+
+    private String getRandomDriverMessage() {
+        String[] driverMessages = {
+                "Keep up the good work, drivers!",
+                "Hang in there :)",
+                "Don't Frick up.",
+                "Don't try to See More",
+                "HUE!"
+        };
+        return driverMessages[new Random().nextInt(driverMessages.length)];
     }
 }
-
-/*
-*  MICHAEL:
-*  Try and run it :) I think it's all done, report back the success!
-* */

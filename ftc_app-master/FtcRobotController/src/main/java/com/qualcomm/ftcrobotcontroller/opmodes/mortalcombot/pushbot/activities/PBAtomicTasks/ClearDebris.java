@@ -35,7 +35,7 @@ public class ClearDebris extends PBTask {
             }
 
         sweeperPosition = Range.clip(sweeperPosition, 0, 1);
-        pushbot.setSweeperPosition(sweeperPosition);
+        //pushbot.setSweeperPosition(sweeperPosition);
 
         return sweeperPosition <= 0;
     }

@@ -10,9 +10,10 @@ public class PBTeleOp extends OpMode {
     private PBCommon pushbot;
     private float motorLeftPower, motorRightPower, motorArmPower;
     private float motorLeftPowerLast, motorRightPowerLast, motorArmPowerLast;
-    //private float motorTapePowerIn, motorTapePowerOut;
-    private double clawPosition, clawPositionLast = 0d;
-    //private double tiltPosition, lastTiltPosition = 1.0d;
+    private float motorTapePowerIn, motorTapePowerOut;
+    private float motorStringPowerIn, motorStringPowerOut;
+    private double clawPosition, clawPositionLast = 0.0d;
+    //private double tiltPosition, lastTiltPosition = 0.65d;
     private String driverMessage;
 
     public PBTeleOp() {}
@@ -34,7 +35,6 @@ public class PBTeleOp extends OpMode {
         grabControllerInput();
         updateMotors();
         updateClaw();
-        //updateTapeMeasureTilt();
         updateTelemetry();
     }
 
@@ -43,8 +43,10 @@ public class PBTeleOp extends OpMode {
         motorLeftPower = -gamepad1.left_stick_y;
         motorRightPower = -gamepad1.right_stick_y;
         motorArmPower = -gamepad2.right_stick_y;
-        //motorTapePowerOut = gamepad1.right_trigger;
-        //motorTapePowerIn = -gamepad1.left_trigger;
+        motorTapePowerOut = gamepad1.right_trigger;
+        motorTapePowerIn = -gamepad1.left_trigger;
+        motorStringPowerOut = gamepad2.right_trigger;
+        motorStringPowerIn = -gamepad2.left_trigger;
 
         // Check for loosen claw
         if (gamepad2.dpad_down)
@@ -53,8 +55,7 @@ public class PBTeleOp extends OpMode {
         // Check for tighten claw
         if (gamepad2.dpad_up)
             clawPosition -= 0.004;
-
-        /*
+/*
         if (gamepad2.right_trigger > 0)
             tiltPosition += 0.0009;
 
@@ -74,7 +75,8 @@ public class PBTeleOp extends OpMode {
             pushbot.setArmPower(motorArmPower);
             motorArmPowerLast = motorArmPower;
         }
-/*
+
+
         if (motorTapePowerOut > 0) {
             pushbot.dispenseTape(motorTapePowerOut);
         }
@@ -82,7 +84,18 @@ public class PBTeleOp extends OpMode {
         if (motorTapePowerIn < 0) {
             pushbot.dispenseTape(motorTapePowerIn);
         }
-        */
+
+        if (motorStringPowerOut > 0) {
+            pushbot.dispenseString(motorStringPowerOut);
+        }
+
+        if (motorStringPowerIn < 0) {
+            pushbot.dispenseString(motorStringPowerIn);
+        }
+
+
+
+
     }
 
     private void updateClaw() {
@@ -94,7 +107,7 @@ public class PBTeleOp extends OpMode {
         }
     }
 
-    /*
+/*
     private void updateTapeMeasureTilt() {
         tiltPosition = Range.clip(tiltPosition, 0.3798, 0.7056);
 
@@ -105,6 +118,7 @@ public class PBTeleOp extends OpMode {
     }
     */
 
+
     private void updateTelemetry() {
         // Send telemetry data to the driver station.
         telemetry.addData("Left power", motorLeftPower);
@@ -112,7 +126,8 @@ public class PBTeleOp extends OpMode {
         telemetry.addData("Arm power", motorArmPower);
         telemetry.addData("Claw position", clawPosition);
         //telemetry.addData("TiltPosition", tiltPosition);
-        //telemetry.addData("TapePower", "In: " + motorTapePowerIn + ", Out: " + motorTapePowerOut);
+        telemetry.addData("TapePower", "In: " + motorTapePowerIn + ", Out: " + motorTapePowerOut);
+        telemetry.addData("StringPower", "In: " + motorStringPowerIn + ", Out: " + motorStringPowerOut);
         telemetry.addData("Message", driverMessage);
     }
 

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 
 public class PBCommon {
     // Global variables
-    public DcMotor motorLeft, motorRight, motorArm;
+    public DcMotor motorLeft, motorRight, motorArm, motorTapeMeasure, motorString;
     public Servo servoClawLeft, servoClawRight;
     public DcMotorController.DeviceMode READ_MODE, WRITE_MODE;
     public DcMotorController.RunMode RUN_USING_ENCODERS, RESET_ENCODERS, RUN_TO_POSITION;
@@ -22,7 +22,8 @@ public class PBCommon {
         motorLeft = opModeSender.hardwareMap.dcMotor.get("motor_1");
         motorRight = opModeSender.hardwareMap.dcMotor.get("motor_2");
         motorArm = opModeSender.hardwareMap.dcMotor.get("motor_3");
-        //motorTapeMeasure = opModeSender.hardwareMap.dcMotor.get("motor_4");
+        motorTapeMeasure = opModeSender.hardwareMap.dcMotor.get("motor_4");
+        motorString = opModeSender.hardwareMap.dcMotor.get("motor_5");
 
         // Define servo variables
         servoClawLeft = opModeSender.hardwareMap.servo.get("servo_1");
@@ -76,15 +77,13 @@ public class PBCommon {
         servoClawRight.setPosition(clawPosition);
     }
 
-    /*
+
     public void dispenseTape (float tapePower) {
         motorTapeMeasure.setPower(tapePower);
     }
-    */
 
-    /*
-    public void setTiltPosition(double pos) {
-        servoTiltTapeMeasure.setPosition(pos);
+    public void dispenseString(double stringPower) {
+        motorString.setPower(stringPower);
     }
-    */
+
 }
